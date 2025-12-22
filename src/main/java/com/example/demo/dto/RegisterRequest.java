@@ -1,22 +1,22 @@
 package com.example.demo.dto;
 
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import com.example.demo.entity.Role;
 
-public class UserDTO {
+public class RegisterRequest {
 
-    private Long id;
+    @NotBlank
     private String fullName;
-    private String email;
-    private Role role;
-    private LocalDateTime createdAt;
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
+    private String password;
+
+    private Role role;
 
     public String getFullName() {
         return fullName;
@@ -32,17 +32,17 @@ public class UserDTO {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Role getRole() {
         return role;
     }
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 }
