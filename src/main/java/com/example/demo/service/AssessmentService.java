@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.entity.AssessmentResult;
 
-@bean
+@service
 public interface AssessmentService {
-
+    
     AssessmentResult recordAssessment(AssessmentResult result);
 }
