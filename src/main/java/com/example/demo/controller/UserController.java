@@ -1,42 +1,33 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.dto.UserDTO;
 import com.example.demo.entity.User;
-import com.example.demo.serviceimpl.UserServiceImpl;
-
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(
-            @Valid @RequestBody RegisterRequest request) {
+    public User register(@RequestBody User user) {
+        return userService.register(user);
+    }
 
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+    @GetMapping("/{id}")
+    public User getById(@PathVariable Long id) {
+        return userService.getById(id);
+    }
 
-        User savedUser = userService.register(user);
-
-        UserDTO dto = new UserDTO();
-        dto.setId(savedUser.getId());
-        dto.setFullName(savedUser.getFullName());
-        dto.setEmail(savedUser.getEmail());
-        dto.setRole(savedUser.getRole());
-        dto.setCreatedAt(savedUser.getCreatedAt());
-
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    @GetMapping("/instructors")
+    public List<User> instructors() {
+        return userService.listInstructors();
     }
 }

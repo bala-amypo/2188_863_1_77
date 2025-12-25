@@ -1,79 +1,37 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.StudentProfile;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
+
+import java.time.Instant;
 
 @Entity
-@Table(name = "assessment_results")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AssessmentResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* ---------------- Relations ---------------- */
+    private String assessmentId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "student_profile_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "student_profile_id")
     private StudentProfile studentProfile;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "skill_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    /* ---------------- Assessment Data ---------------- */
+    private Double score;
 
-    @Column(nullable = false)
-    private Double score;   // 0–100
+    @Builder.Default
+    private Double maxScore = 100.0;
 
-    @Column(nullable = false)
-    private LocalDateTime assessedAt;
-
-    /* ---------------- Constructors ---------------- */
-
-    public AssessmentResult() {
-        this.assessedAt = LocalDateTime.now();
-    }
-
-    /* ---------------- Getters & Setters ---------------- */
-
-    public Long getId() {
-        return id;
-    }
-
-    public StudentProfile getStudentProfile() {
-        return studentProfile;
-    }
-
-    public void setStudentProfile(StudentProfile studentProfile) {
-        this.studentProfile = studentProfile;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        if (score < 0 || score > 100) {
-            throw new IllegalArgumentException("Score must be between 0 and 100");
-        }
-        this.score = score;
-    }
-
-    public LocalDateTime getAssessedAt() {
-        return assessedAt;
-    }
-
-    public void setAssessedAt(LocalDateTime assessedAt) {
-        this.assessedAt = assessedAt;
-    }
+    @Builder.Default
+    private Instant attemptedAt = Instant.now();
 }
