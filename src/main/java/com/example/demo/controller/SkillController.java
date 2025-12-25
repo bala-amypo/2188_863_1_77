@@ -2,44 +2,37 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Skill;
 import com.example.demo.service.SkillService;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/skills")
 public class SkillController {
 
-    private final SkillService skillService;
+    private final SkillService service;
 
-    public SkillController(SkillService skillService) {
-        this.skillService = skillService;
+    public SkillController(SkillService service) {
+        this.service = service;
     }
 
-    /**
-     * Create a new skill
-     */
     @PostMapping
-    public ResponseEntity<Skill> createSkill(@Valid @RequestBody Skill skill) {
-        Skill savedSkill = skillService.createSkill(skill);
-        return ResponseEntity.ok(savedSkill);
+    public Skill create(@RequestBody Skill skill) {
+        return service.createSkill(skill);
     }
 
-    /**
-     * Deactivate a skill (soft delete)
-     */
-    @PutMapping("/{id}/deactivate")
-    public ResponseEntity<Skill> deactivateSkill(@PathVariable Long id) {
-        Skill skill = skillService.deactivateSkill(id);
-        return ResponseEntity.ok(skill);
+    @PutMapping("/{id}")
+    public Skill update(@PathVariable Long id, @RequestBody Skill skill) {
+        return service.updateSkill(id, skill);
     }
 
-    /**
-     * Activate a skill
-     */
-    @PutMapping("/{id}/activate")
-    public ResponseEntity<Skill> activateSkill(@PathVariable Long id) {
-        Skill skill = skillService.activateSkill(id);
-        return ResponseEntity.ok(skill);
+    @GetMapping("/{id}")
+    public Skill getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @GetMapping("/active")
+    public List<Skill> active() {
+        return service.getActiveSkills();
     }
 }

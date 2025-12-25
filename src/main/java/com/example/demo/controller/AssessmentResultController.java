@@ -1,56 +1,21 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.AssessmentResult;
-import com.example.demo.service.AssessmentResultService;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.service.AssessmentService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/assessments")
-public class AssessmentResultController {
+public class AssessmentController {
 
-    private final AssessmentResultService assessmentResultService;
+    private final AssessmentService service;
 
-    public AssessmentResultController(AssessmentResultService assessmentResultService) {
-        this.assessmentResultService = assessmentResultService;
+    public AssessmentController(AssessmentService service) {
+        this.service = service;
     }
 
-    /**
-     * Create a new assessment result
-     */
     @PostMapping
-    public ResponseEntity<AssessmentResult> createAssessment(
-            @Valid @RequestBody AssessmentResult assessmentResult) {
-
-        return ResponseEntity.ok(
-                assessmentResultService.createAssessmentResult(assessmentResult)
-        );
-    }
-
-    /**
-     * Get all assessment results for a student
-     */
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<AssessmentResult>> getByStudent(
-            @PathVariable Long studentId) {
-
-        return ResponseEntity.ok(
-                assessmentResultService.getResultsByStudent(studentId)
-        );
-    }
-
-    /**
-     * Get all assessment results for a skill
-     */
-    @GetMapping("/skill/{skillId}")
-    public ResponseEntity<List<AssessmentResult>> getBySkill(
-            @PathVariable Long skillId) {
-
-        return ResponseEntity.ok(
-                assessmentResultService.getResultsBySkill(skillId)
-        );
+    public AssessmentResult record(@RequestBody AssessmentResult result) {
+        return service.recordAssessment(result);
     }
 }
