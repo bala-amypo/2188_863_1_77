@@ -3,7 +3,9 @@ package com.example.demo.serviceimpl;
 import com.example.demo.entity.AssessmentResult;
 import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.service.AssessmentService;
+import org.springframework.stereotype.Service;
 
+@Service   // ⭐ THIS IS THE KEY FIX
 public class AssessmentServiceImpl implements AssessmentService {
 
     private final AssessmentResultRepository repository;
@@ -14,7 +16,6 @@ public class AssessmentServiceImpl implements AssessmentService {
 
     @Override
     public AssessmentResult recordAssessment(AssessmentResult result) {
-
         if (result.getScore() == null) {
             throw new IllegalArgumentException("Score cannot be null");
         }
