@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.AssessmentResult;
+import org.springframework.stereotype.Service;
 
-@service
+@Service
 public interface AssessmentService {
     
     AssessmentResult recordAssessment(AssessmentResult result);
