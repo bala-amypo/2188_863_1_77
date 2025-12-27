@@ -1,3 +1,4 @@
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -17,21 +18,25 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    private User user;
+
+    @Column(unique = true)
     private String enrollmentId;
 
-    // TEST USES grade, NOT yearLevel
+    // REQUIRED BY TESTS
     private String grade;
 
-    private String cohort;
+    private Integer yearLevel;
 
-    @Builder.Default
-    private boolean active = true;
+    private Boolean active = true;
 
+    // ✅ MUST NOT BE NULL (required by TestNG)
     @Builder.Default
     private Instant lastUpdatedAt = Instant.now();
 
     @PreUpdate
     public void preUpdate() {
-        this.lastUpdatedAt = Instant.now();
+        lastUpdatedAt = Instant.now();
     }
 }

@@ -1,4 +1,3 @@
-
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -6,9 +5,12 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
-public class SkillGapRecommendation {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SkillGapRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +22,9 @@ public class SkillGapRecommendation {
     @ManyToOne
     private Skill skill;
 
-    private String recommendedAction;
-    private String priority;
+    private Double currentScore;
+    private Double targetScore;
     private Double gapScore;
-    private String generatedBy;
 
-    private Instant generatedAt = Instant.now();
+    private Instant calculatedAt = Instant.now();
 }
