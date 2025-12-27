@@ -1,33 +1,25 @@
+
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.AssessmentResult;
 import com.example.demo.repository.AssessmentResultRepository;
-import com.example.demo.service.AssessmentService;
-import org.springframework.stereotype.Service;
 
-@Service   // ⭐ THIS IS THE KEY FIX
-public class AssessmentServiceImpl implements AssessmentService {
+public class AssessmentServiceImpl {
 
-    private final AssessmentResultRepository repository;
+    private final AssessmentResultRepository repo;
 
-    public AssessmentServiceImpl(AssessmentResultRepository repository) {
-        this.repository = repository;
+    public AssessmentServiceImpl(AssessmentResultRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
-        if (result.getScore() == null) {
-            throw new IllegalArgumentException("Score cannot be null");
+    public AssessmentResult recordAssessment(AssessmentResult r) {
+        if (r.getScore() == null ||
+            r.getScore() < 0 ||
+            r.getScore() > r.getMaxScore()) {
+
+            throw new IllegalArgumentException("Score must be between 0 and 100");
         }
 
-        if (result.getMaxScore() == null) {
-            result.setMaxScore(100.0);
-        }
-
-        if (result.getScore() < 0 || result.getScore() > result.getMaxScore()) {
-            throw new IllegalArgumentException("Score out of range");
-        }
-
-        return repository.save(result);
+        return repo.save(r);
     }
 }
